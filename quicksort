@@ -1,0 +1,68 @@
+#include<stdio.h>
+
+typedef int Item;
+
+void exch(Item a[], int i, int j)
+{
+	Item m;
+
+	m = a[i];
+	a[i] = a[j];
+	a[j] = m;
+
+}
+
+int less(Item a, Item b)
+{
+	if (a < b)
+		return 1;
+	else
+		return 0;
+}
+
+int partition(Item a[], int l, int r)
+{
+	int i = l - 1, j = r;
+	Item v = a[r];
+
+	for (;;)//没有初始条件，没有结束条件，靠break结束
+	{
+		while (less(a[++i], v));
+		while (less( v, a[--j]))
+		{
+			if (j == l)
+				break;
+		}
+		if (i >= j)
+			break;
+		exch(a,i,j);
+	}
+	exch(a, i, r);//把元素放到最终的位置上
+	return i;
+}
+
+void quicksort(Item a[], int l, int r)
+{
+	int i;
+
+	if (l >= r)//递归跳出条件
+		return;
+
+	i = partition(a, l, r);//吧元素放到最终的位置上
+	quicksort(a,l,i-1);
+	quicksort(a, i+1,r);
+
+}
+
+int main()
+{
+	Item a[6] = {6,5,4,3,2,1};
+
+	quicksort(a, 0, 5);
+
+	for (int i = 0; i < 6; i++)
+		printf("a[%d]=%d  ", i, a[i]);
+
+	getchar();
+	return 1;
+}
